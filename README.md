@@ -13,14 +13,13 @@
 
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> Project Info
-저는 부산폴리텍 하이테크 과정에서 c#과 winform에 대해 배우는 중 매번 컨텐츠의 끝을 보지 않는 부분이 아쉬워
-혼자 끝까지 만들어 본 미니 프로젝트입니다.
-마인 숫자(플래그 갯수)와 경과 시간 그리고 재시작 버튼을 담고 있는 패널을 객체를 만들어 추가하였습니다.
-또한, 게임 시작 시 사용자로부터 레벨을 입력 받기 위한 form을 추가하였습니다.
+저는 부산폴리텍 하이테크 과정에서 c#과 winform에 대해 배우는 중 입니다. <br>
+이번 프로젝트는 winform 프로젝트 중 흔하게 접할 수 있는 레스토랑 관리 시스템을 작업하였으며,<br>
+mssql과 연동하여 실시간 서버와의 실시간 데이터 관리와 crystal report를 이용한 기본적인 영수증 form 작성을 학습할 수 있었습니다.
 
-Reason for making: studying c# and winform <br>
+Reason for making: studying c# and winform,  <br>
 Busan Polytechnic High-Tech Course <br>
-Development period: 3 days <br>
+Development period: 7 days <br>
 <br>
 
 ## 개발팀 소개
@@ -45,10 +44,10 @@ Development period: 3 days <br>
 
 ## Stacks
 ### Environment
-<img src="https://img.shields.io/badge/visualstudio-5C2D91?style=flat-square&logo=visualstudio&logoColor=white"/> <img src="https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/badge/visualstudio-5C2D91?style=flat-square&logo=visualstudio&logoColor=white"/><img src="https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white"/>
 
 ### Development
-<img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> 
+<img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/microsoftsqlserver-CC2927?style=flat-square&logo=microsoftsqlserver&logoColor=white"/> 
 
 ### Communication
 <img src="https://img.shields.io/badge/slack-4A154B?style=flat-square&logo=slack&logoColor=white"/>
