@@ -4,8 +4,8 @@
 <br>
 
 <p align="center">
-  <img src ="https://github.com/TakeNewcare/Project/assets/163362484/53782992-4f6a-409e-b15f-835712bd9f90"  width="250" height="300" align='left'>
-  <img src ="https://github.com/TakeNewcare/Project/assets/163362484/a5300c74-990c-4456-b741-94863e45d85b"  width="250" height="300">
+  <img src ="./Project/assets/163362484/53782992-4f6a-409e-b15f-835712bd9f90"  width="250" height="300" align='left'>
+  <img src ="./Project/assets/163362484/a5300c74-990c-4456-b741-94863e45d85b"  width="250" height="300">
 </p>
 
 
