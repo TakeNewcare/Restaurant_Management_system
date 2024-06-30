@@ -57,74 +57,111 @@ Busan Polytechnic High-Tech Course
 |<img src ="../main/image/login.png"  width="200" height="300">|<img src ="../main/image/LoginFail2.png"  width="200" height="200">|<img src ="../main/image/main.png"  width="400" height="300">|
 <br>
 
-|카테고리 리스트 & 추가|제품 리스트 & 추가|테이블 리스트 & 추가||직원 리스트 & 추가|
+|카테고리 리스트 & 추가|제품 리스트 & 추가|테이블 리스트 & 추가|직원 리스트 & 추가|
 |:---:|:---:|:---:|:---:|
+|<img src ="../main/image/categoryList.png"  width="300" height="200">|<img src ="../main/image/productList3.png"  width="300" height="200">|<img src ="../main/image/table.png"  width="300" height="200">|<img src ="../main/image/staff.png"  width="300" height="200">|
+<br>
 
+|포스기|주문 수정|주방 화면|
+|:---:|:---:|:---:|
+|<img src ="../main/image/POS.png"  width="300" height="200">|<img src ="../main/image/bill.png"  width="300" height="200">|<img src ="../main/image/KI.png"  width="300" height="200">|<img src ="../main/image/staff.png"  width="300" height="200">|
+<br>
+
+|결산|메뉴판|주방 화면|주방 화면|
+|:---:|:---:|:---:|:---:|
+|<img src ="../main/image/result.png"  width="300" height="200">|<img src ="../main/image/result_menu.png"  width="150" height="300">|<img src ="../main/image/result_staff.png"   width="150" height="300">|<img src ="../main/image/result_sale.png"   width="150" height="300">|
 
 
 ## 
 
 ## main function
-### 1. 안전지대 클릭 시 주변 오픈 기능
+### 1. 데이터베이스 기초 지식
 ```
-// 클릭한 셀이 안전지대(.)이면 주변의 8칸도 열리게하는 코드
-public void OpenSurround(int x, int y)
+sql 흐름
+    SqlConnection 클래스로 연결 => 한번만 연결하면 된다. 연결상태 확인용도 있으면 좋음
+    SqlCommand, SqlDataAdapter, SqlDataReader 를 사용하여 읽고 조작한다.
+
+    mssql 연결 객체 종류
+    SqlConnection : 서버와 연결을 설정하는데 사용
+    SqlCommand : 단순히 쿼리를 실행하고 그 결과를 받아오는데 사용
+    SqlDataAdapter : cmd를 이용하여 직접적으로 데이터베이스와 상호작용한다.(데이터베이스 삽입, 업데이트, 삭제하는데 사용)
+    SqlDataReader : 데이터베이스에서 데이터를 읽어오는데만 사용(데이터를 수정하거나 업데이트 하지 않는다.), 데이터를 순차적으로 읽어온다.
+
+데이터 베이스 connection 쿼리
+    Data Source = 데이터베이스 전체 이름(컴퓨터 이름이 아니다!!!);
+    Initial Catalog= 데이터베이스명;
+    TrustServerCertificate=True; // 신뢰성 확인
+    Persist Security Info=True;   : 데이터베이스 연결 문자열에서 사용되는 옵션으로 true 이면 사용자가 연결 문자열에 포함된 비밀번호를 볼 수 있게 된다
+    User ID = mssql 아이디;
+    Password= mssql 비밀번호;
+```
+데이터 베이스 활용
+```
+// 카테고리 항목을 불러와서 버튼으로 만드는 코드
+private void AddCategory()
 {
-    // 사용자가 클릭한 셀이 최소 또는 최대 값을 갖는 셀의 위치이면 주변 8칸을 찾을 때 셀의 최소 또는 최대 위치를 넘지 않게 찾기 위한 max, min 함수
-    //     ex) 10x10 게임 중 1행 1열 셀을 클릭 시 -1의 행과 열에 셀이 없기 때문에 Math의 Max와 Min 함수를 통해 0 또는 9를 최소/최대 값으로 설정해준다.
-    for (int i = Math.Max(x - 1, 0); i <= Math.Min(x + 1, current_row - 1); i++)
+    string qry = "select * from Category";                // Category 테이블의 모든 항목을 불러오는 쿼리
+    SqlCommand cmd = new SqlCommand(qry, MainClass.con);  // MainClass에 정의된 con 객체와 쿼리를 연결한다
+    SqlDataAdapter da = new SqlDataAdapter(cmd);          // 정의된 쿼리에 맞게 동작한다
+    DataTable dt = new DataTable();                       
+    da.Fill(dt);                                          // 불러온 Category 테이블의 모든 데이터를 dt에 넣는다.
+
+    CategoryPanel.Controls.Clear();                       // 데이터를 넣기 전 초기화
+
+    if (dt.Rows.Count > 0)
     {
-        for (int j = Math.Max(y - 1, 0); j <= Math.Min(y + 1, current_col - 1); j++)
+        foreach (DataRow row in dt.Rows)                  // 한 행씩 불러와 row에 넣는다
         {
-            if (cells[i, j].Text != "")   // 이미 오픈된 박스하면 패스
-                continue;
+            Guna.UI2.WinForms.Guna2Button b = new Guna.UI2.WinForms.Guna2Button();    
+            b.FillColor = Color.FromArgb(50, 55, 89);
+            b.Size = new Size(190, 80);
+            b.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            b.Text = row["catName"].ToString();           // 불러온 데이터 중 catName 열을 버튼 텍스트에 넣어준다
 
-            OpenCell(cells[i, j]);
+            // 카테고리 버튼 클릭
+            b.Click += new EventHandler(b_Click);        
 
-            if (cells[i, j].Text == ".")   // 만약, 열린 곳이 또 안전 지대일 시 재귀한다.
-                OpenSurround(i, j);
+            CategoryPanel.Controls.Add(b);
         }
     }
 }
-
-
+```
 ```
 
+public override void btnSave_Click(object sender, EventArgs e)
+ {
+     // 화면 출력이 아니라 쿼리만 실행하기 때문에 sql 함수 사용
+
+     // 데이터 저장용, 수정용 쿼리 
+     string qry = "";
+     if (id == 0)    // 데이터 저장용
+     {
+         qry = "insert into category values(@Name)";
+     }
+     else            // 수정용 쿼리
+     {
+         qry = "update category set catName = @Name where catID = @id";
+     }
+
+     Hashtable ht = new Hashtable();     // 그리드뷰의 데이터를 헤쉬테이블의 키-값 형태로 만들기
+     ht.Add("@id", id);
+     ht.Add("@Name", txtName.Text);
+
+     if (MainClass.SQL(qry, ht) > 0)  // 실행한 결과의 값
+     {
+         // 데이터 초기화
+         guna2MessageDialog1.Show("저장 완료");
+         id = 0;
+         txtName.Text = "";
+         txtName.Focus();
+     }
+
+ }
+```
 ### 2. 플래그 기능
 ```
-// 우클릭 시 깃발, 경계라인 클릭 시 범위를 나타내는 동작 => 플래그 꼽힌 셀은 클릭 막기
-private void Flag_btn(object sender, MouseEventArgs e)
-{
-    Cell c = (Cell)sender;  // 이벤트 발생한 객체 찾기
 
-    // 경계라인 클릭 시 범위 알려주는 기능 => 클릭 이벤트에 걸면 작동 x
-    if (c.Text != "" && c.Text != "." && c.Text != "P")
-        Surround_Sign(c.x, c.y);
-    else
-    {
-    if (e.Button != MouseButtons.Right)
-        return;
 
-    if (game_start_true)   // 첫 클릭이 우클릭이라도 시작으로 간주하고 타이머 시작
-    {
-        game_start_true = false; // 첫 클릭인 true 값을 false로 돌려 다음 클릭은 타이머 다시 시작하는거 막기
-        timer1.Start();
-    }
-
-    if (c.Text == "P")
-    {
-        c.Text = "";
-        pan.L1.Text = (flag_count + 1).ToString();
-        flag_count += 1;
-    }
-    else if (c.Text == "")
-    {
-        c.Text = "P";
-        pan.L1.Text = (flag_count - 1).ToString();
-        flag_count -= 1;
-        c.ForeColor = System.Drawing.Color.Red;
-    }
-}
 ```
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> 새로 알게된 점과 느낀점
