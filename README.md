@@ -13,8 +13,8 @@
 저의 두번째 프로젝트는 winform 프로젝트 중 흔하게 접할 수 있는 레스토랑 관리 시스템을 작업하였습니다.<br><br>
 
 관리자가 로그인하여 제품의 카테고리 부터 제품, 직원 그리고 테이블까지 설정할 수 있으며,<br>
-포스기를 통해 테이블과 직원을 선택하고 배달, 포장, 식사 등의 배송 형태 그리고 요리를 시작할지 말지를 결정하는 대기, 주문 등을 선택할 수 있습니다.<br>
-또한, crystal report를 이용하여 영수증, 제품 리스트, 직원 리스트 등을 만들었으며,
+포스기를 통해 테이블과 직원을 선택하고 배달, 포장, 식사 등의 배송 형태 그리고 요리를 시작할지 말지를 결정하는 예약 상태와 주문 상태를 선택할 수 있습니다.<br>
+또한, crystal report를 이용하여 영수증, 제품 리스트, 직원 리스트 등을 만들었으며,<br>
 모든 작업은 MSSQL을 바탕으로 제작되었습니다.<br>
 <br><br>
 Reason for making: studying c#, winform(Guna.UI2), crystal report, MSSQL <br>
@@ -51,11 +51,11 @@ Busan Polytechnic High-Tech Course
 ### Development
 <img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> 
 
-### <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=airplayvideo&logoColor=black"/>Screen configuration
-|Start|Win|End|
-|:---:|:---:|:---:|
-|<img src ="../main/Image/start.png"  width="250" height="300">|<img src ="../main/Image/win.png"  width="250" height="300">|<img src ="../main/Image/end.png"  width="250" height="300">|
-|**10x10**|**15x15**|**20x20**|
+### <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=airplayvideo&logoColor=black"/>Screen configuration and Description
+|로그인|로그인 실패|
+|:---:|:---:|
+|<img src ="../main/image/login.png"  width="200" height="300">|<img src ="../main/image/LoginFail.png"  width="200" height="200">|
+|**10x10**|**15x15**|
 |<img src ="../main/Image/10x10.png"  width="250" height="300">|<img src ="../main/Image/15x15.png"  width="250" height="300">|<img src ="../main/Image/20x20.png"  width="250" height="300">|
 
 ## 
@@ -124,11 +124,9 @@ private void Flag_btn(object sender, MouseEventArgs e)
 ```
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> 새로 알게된 점과 느낀점
-이번 프로젝트를 진행하면서 새로 알게된 부분은 label 컨트롤은 다른 컨트롤들과는 다르게 상속받아서 사용할 수 없다는 부분입니다.
-<br><br>
-지뢰를 만들 때 button 컨트롤을 상속 받는 클래스를 만들어 form에서 반복문을 통해 최대갯수로 인스턴스를 생성하여 배열에 담고  visible 속성을 통해 레벨에 따라 필요한 부분만 보이게 만들었지만,
-<br><br>
-전광판 객체를 생성할 때 label 컨트롤 상속을 시도하다 알게된 사실이며 label 뿐만 아니라, ListView와 ToolStrip 등 기본 컨트롤 중 몇가지 컨트롤이 상속할 수 없다는 점을 알게 되었습니다.
+처음 작업해 보는 데이터베이스 연동 과정이 생각보다 오래 걸려 매일 새벽 4~5까지 작업한게 힘들었지만,
+힘들게 얻어낸 지식들로 막힌 부분이 돌아가는 그 순간, 어릴 때 어려운 수학문제 혼자 고민하고 고민하다 해결했을 때의 기분을 다시 한번 느꼈고
+그렇게 얻은 것들을 같이 배우는 사람에게 도움을 줄 수 있어서 좋았습니다.
 
 <br>
 
