@@ -91,11 +91,12 @@ sql 흐름
     Data Source = 데이터베이스 전체 이름(컴퓨터 이름이 아니다!!!);
     Initial Catalog= 데이터베이스명;
     TrustServerCertificate=True; // 신뢰성 확인
-    Persist Security Info=True;   : 데이터베이스 연결 문자열에서 사용되는 옵션으로 true 이면 사용자가 연결 문자열에 포함된 비밀번호를 볼 수 있게 된다
+    Persist Security Info=True;   : 데이터베이스 연결 문자열에서 사용되는 옵션으로 true 이면 사용자가 연결 문자열에
+                                    포함된 비밀번호를 볼 수 있게 된다
     User ID = mssql 아이디;
     Password= mssql 비밀번호;
 ```
-데이터 베이스 활용
+### 2. 데이터 베이스 활용(보고있는 프로젝트 방법 보다 현재 새롭게 진행 중인 프로젝트의 방식이 더 간편한다)
 ```
 // 카테고리 항목을 불러와서 버튼으로 만드는 코드
 private void AddCategory()
@@ -127,47 +128,137 @@ private void AddCategory()
 }
 ```
 ```
+// 이미지 선택
+string filePath;
+private void btnBrowse_Click(object sender, EventArgs e)
+{
+    OpenFileDialog ofd = new OpenFileDialog();              // OpenFileDialog 객체 (파일을 선택 대화상자) 선언
+    ofd.Filter = "Images(.jpg, .png)|*.png; *.jpg";        // 확장자 설정(문자열 형태!!!)
+                    // Images(.jpg, .png)" : 사용자에게 표시되는 파일 필터의 설명
+                    // | : 구분자
+                    // *.png; *.jpg; : 실제 파일 필터링 시 사용디는 확장자 패턴
 
+    if (ofd.ShowDialog() == DialogResult.OK)               // 파일을 선택 대화상자에서 파일 선택하면
+    {
+        filePath = ofd.FileName;                           // 선택된 파일의 전체 경로(!!!)를 filePath 변수에 할당
+        txtImage.Image = new Bitmap(filePath);             // txtImage픽쳐박스의 이미지 속성에 이미지를 그려준다
+    }
+}
+
+```
+```
+// 데이터 저장
 public override void btnSave_Click(object sender, EventArgs e)
- {
-     // 화면 출력이 아니라 쿼리만 실행하기 때문에 sql 함수 사용
+{
+    string qry = "";
+    if (id == 0)   // productView 폼에서 추가 버튼 클릭 시 id 값이 0으로 설정
+    {
+        qry = "insert into products values (@Name, @price, @cat, @img)";
+    }
+    else   // productView 폼에서 데이터그리드뷰 안의 제품 행에서 수정 버튼 클릭 시 id != 0
+    {
+        qry = "Update products set pName = @Name, pPrice = @price, CategoryID = @cat, pImage = @img where pID = @id";
+    }
 
-     // 데이터 저장용, 수정용 쿼리 
-     string qry = "";
-     if (id == 0)    // 데이터 저장용
-     {
-         qry = "insert into category values(@Name)";
-     }
-     else            // 수정용 쿼리
-     {
-         qry = "update category set catName = @Name where catID = @id";
-     }
+    Image temp = new Bitmap(txtImage.Image);  // 픽쳐박스(txtImage)의 Image를 Bitmap 객체로 가져와 temp Image 변수에 저장한다.
+    MemoryStream ms = new MemoryStream();       // 이미지 저장을 위한 MemoryStream 객체 생성
+    temp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);  // 선택한 이미지를 png 형식으로 변환 후 MemoryStream객체(ms)에 저장한다
+    imageByteArray = ms.ToArray();              // 저장한 이미지를 바이트 배열 형식으로 변환
 
-     Hashtable ht = new Hashtable();     // 그리드뷰의 데이터를 헤쉬테이블의 키-값 형태로 만들기
-     ht.Add("@id", id);
-     ht.Add("@Name", txtName.Text);
+    Hashtable ht = new Hashtable(); // 키-값 형식의 hashtable 생성
 
-     if (MainClass.SQL(qry, ht) > 0)  // 실행한 결과의 값
-     {
-         // 데이터 초기화
-         guna2MessageDialog1.Show("저장 완료");
-         id = 0;
-         txtName.Text = "";
-         txtName.Focus();
-     }
+    // hash 테이블에 데이터 그리드 뷰값을 저장한다.(키 값은 쿼리에서 지정한 형태와 같게한다) => Mainclass.Sql에서 각 값을 치환하여 쿼리를 실행한다.
+    ht.Add("@id", id);         
+    ht.Add("@Name", txtName1.Text);
+    ht.Add("@price", txtPrice.Text);
+    ht.Add("@cat", Convert.ToInt32(cbCat.SelectedValue));
+    ht.Add("@img", imageByteArray);
 
- }
+// SQL 쿼리에 하드코딩된 값을 직접 전달하는 대신, 매개변수화된 쿼리를 사용하여 SQL Injection 공격을 방지, 코드의 재사용성과 유지보수성 향상
+
+    if (MainClass.SQL(qry, ht) > 0)
+    {
+        // 저장 후 데이터 초기화
+        guna2MessageDialog1.Show("저장 완료");
+        id = 0;
+        cID = 0;
+        txtName1.Text = "";
+        txtPrice.Text = "";
+        cbCat.SelectedIndex = 0;
+        cbCat.SelectedIndex = -1;
+        txtImage.Image = CM.Properties.Resources.add_product;
+        txtName1.Focus();
+    }
+}
+
+
 ```
-### 2. 플래그 기능
 ```
+// 패널에 제품 넣기(데이터베이스에 바이트 형식으로 저장된 이미지를 불러오기)
+private void LoadProducts()
+{
+    // products의 catID와 category의 CategoryID 를 연결 시켜 출력한다
+    string qry = "Select * from products inner join category on catID = CategoryID";
+    SqlCommand cmd = new SqlCommand(qry, MainClass.con);
+    SqlDataAdapter da = new SqlDataAdapter(cmd);
+    DataTable dt = new DataTable();
+    da.Fill(dt);
+
+    foreach (DataRow item in dt.Rows)  // 조회된 결과값 만큼 반복하여 AddItems 함수(ProductPanel에 항목 추가 작업) 실행
+    {
+        Byte[] imagearray = (byte[])item["pImage"];  // 데이터베이스의 pImage 열의 값을 바이트 배열 형태로 현변환
+        byte[] immagebytearray = imagearray;
+
+        // 번호, 아이디, 프로덕트 이름, 카테고리 이름, 가격, 이미지
+        AddItems("0", item["pID"].ToString(), item["pName"].ToString(), item["catName"].ToString(),
+        item["pPrice"].ToString(), Image.FromStream(new MemoryStream(immagebytearray)));
+
+        // Image.FromStream(new MemoryStream(immagebytearray))
+        // new MemoryStream(immagebytearray) : 바이트 배열을 이용하여 MemoryStream 객체를 생성(데이터가 메모리 상에만 존재 파일에 저장x)
+        // Image.FromStream() : 스트림에서 이미지를 읽어와 이미지객체로 변환한다.
+    }
+}
+```
+        // 쿼리문과 테이블을 받아서 실행하고 영향 받은 행의 수를 반환한다.
+        public static int SQL(string qry, Hashtable ht)  
+        {
+            int res = 0;
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(qry, con);
+                cmd.CommandType = CommandType.Text;  // 쿼리 타입이 텍스트형식으로 되었다는 것을 명시하지만 기본값이다.
+
+                foreach (DictionaryEntry item in ht)  // DictionaryEntry : 구조체로 Hashtable의 키-값 쌍을 나타낸다.
+                {
+                    // sqlcommand 객체의 parameters 속성을 이용해 sql 쿼리에 매개변수를 추가한다. => SQL 쿼리 문자열에서 '@매개변수이름' 형식으로 매개변수를 사용
+                    cmd.Parameters.AddWithValue(item.Key.ToString(), item.Value);
+                }
+
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                res = cmd.ExecuteNonQuery();  // cms 객체에서 영향받은 행의 수를 반환한다.
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                con.Close();
+            }
+            return res;
+        }
 
 
-```
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> 새로 알게된 점과 느낀점
-처음 작업해 보는 데이터베이스 연동 과정이 생각보다 오래 걸려 매일 새벽 4~5까지 작업한게 힘들었지만,
+첫날 처음 작업해본 데이터베이스 연동 과정이 생각보다 오래 걸려 매일 새벽 4~5까지 작업한게 힘들었지만,
 힘들게 얻어낸 지식들로 막힌 부분이 돌아가는 그 순간, 어릴 때 어려운 수학문제 혼자 고민하고 고민하다 해결했을 때의 기분을 다시 한번 느꼈고
 그렇게 얻은 것들을 같이 배우는 사람에게 도움을 줄 수 있어서 좋았습니다.
 
+이미지를 바이트 배열 형태로 다루는 부분과 데이터 베이스와 주고 받는 방식에 대해 새로 배울 수 있었습니다.<br>
+해당 프로젝트에서는 이미지를 데이터베이스에만 저장하는 형식이지만 <br>현재 진행 중인 프로젝트에서는 이미지를 프로젝트 내부에 폴더를 생성하여 저장하는 방식이며,<br>
+데이터 베이스 또한 Dataset이라는 객체와 인덱스 번호만을 가지고 이용하는 방식이라 다양한 경험이 필요하다고 느꼈습니다.
 <br>
 
