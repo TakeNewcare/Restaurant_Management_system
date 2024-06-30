@@ -1,27 +1,26 @@
-# <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=duckdb&logoColor=red"/> Minesweeper
+# <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=duckdb&logoColor=red"/> Restaurant Management System
    [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FTakeNewcare&count_bg=%23939DAE&title_bg=%2361ACCD&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
    
 <br>
 
 <p align="center">
-   
-  <img src ="../main/Image/start.png"  width="250" height="300" align='left'>
-  <img src ="../main/Image/win.png"  width="250" height="300">
+  <img src ="../main/image/login.png"  width="200" height="300" align='left'>
+  <img src ="../main/image/POS.png"  width="400" height="300">
 </p>
 
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> Project Info
-저는 부산폴리텍 하이테크 과정에서 c#과 winform에 대해 배우는 중 입니다.
-저의 첫 프로젝트는 지뢰찾기 게임입니다.<br><br>
-프로그램의 핵심 부분인 지뢰를 넣는 부분과 안전지대를 클릭 시 주변의 8칸이 자동으로 열리는 부분까지는 강의 중에 학습할 수 있었습니다.
+저의 두번째 프로젝트는 winform 프로젝트 중 흔하게 접할 수 있는 레스토랑 관리 시스템을 작업하였습니다.<br><br>
+
+관리자가 로그인하여 제품의 카테고리 부터 제품, 직원 그리고 테이블까지 설정할 수 있으며,<br>
+포스기를 통해 테이블과 직원을 선택하고 배달, 포장, 식사 등의 배송 형태 그리고 요리를 시작할지 말지를 결정하는 대기, 주문 등을 선택할 수 있습니다.<br>
+또한, crystal report를 이용하여 영수증, 제품 리스트, 직원 리스트 등을 만들었으며,
+모든 작업은 MSSQL을 바탕으로 제작되었습니다.<br>
 <br><br>
-그리고 게임 시작 시, 사용자로부터 레벨을 입력 받는 폼과 게임 화면에서 지뢰의 갯수와 시간, 클릭하면 플레이하던 레벨이 재시작되는
-스마일 아이콘과 강의에서 배웠던 주변 8칸을 찾는 코드를 통해 오픈된 지역과 오픈되지 않은 지역을 클릭 시
-범위를 보여주는 기능 등을 추가해 보았습니다.
-<br><br>
-Reason for making: studying c# and winform <br>
-Busan Polytechnic High-Tech Course <br>
-Development period: 3 days <br>
+Reason for making: studying c#, winform(Guna.UI2), crystal report, MSSQL <br>
+Development period: 7 days <br>
+Busan Polytechnic High-Tech Course
+<br>
 <br>
 
 ## 개발팀 소개
@@ -34,11 +33,11 @@ Development period: 3 days <br>
    <br>
    <br>
     처음 접해보는 분야라 많은 두려움이 있었지만,<br> 오류가 났을 때 몇 시간이 걸리더라도 해결해야 직성이 풀리는 저의 성격과 잘 맞아 
-    꾸준히 성장하고 있습니다. 감사합니다.
+    꾸준히 성장하고 있습니다. <br>감사합니다.
     </td>
   </tr>
   <tr>
-    <td> <img src ="../main/Image/me.JPG"  width="200" height="200"></td>
+    <td> <img src ="../main/image/me.JPG"  width="200" height="200"></td>
   </tr>
   <tr>
     <td align='center'>wlsdud1525@naver.com</td>
@@ -50,7 +49,7 @@ Development period: 3 days <br>
 <img src="https://img.shields.io/badge/visualstudio-5C2D91?style=flat-square&logo=visualstudio&logoColor=white"/> <img src="https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white"/>
 
 ### Development
-<img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> 
+<img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> 
 
 ### <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=airplayvideo&logoColor=black"/>Screen configuration
 |Start|Win|End|
