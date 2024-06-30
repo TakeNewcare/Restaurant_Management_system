@@ -54,7 +54,7 @@ Busan Polytechnic High-Tech Course
 ### <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=airplayvideo&logoColor=black"/>Screen configuration and Description
 |로그인|로그인 실패|
 |:---:|:---:|
-|<img src ="../main/image/login.png"  width="200" height="300">|<img src ="../main/image/LoginFail.png"  width="200" height="200">|
+|<img src ="../main/image/login.png"  width="200" height="300">|<img src ="../main/image/login.png"  width="200" height="300">|
 |**10x10**|**15x15**|
 |<img src ="../main/Image/10x10.png"  width="250" height="300">|<img src ="../main/Image/15x15.png"  width="250" height="300">|<img src ="../main/Image/20x20.png"  width="250" height="300">|
 
