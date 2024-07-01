@@ -11,14 +11,11 @@
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> Project Info
 저의 두번째 프로젝트는 winform 프로젝트 중 흔하게 접할 수 있는 레스토랑 관리 시스템을 작업하였습니다.<br><br>
-
-관리자가 로그인하여 제품의 카테고리 부터 제품, 직원 그리고 테이블까지 설정할 수 있으며,<br>
-포스기를 통해 테이블과 직원을 선택하고 배달, 포장, 식사 등의 배송 형태 그리고 요리를 시작할지 말지를 결정하는 예약 상태와 주문 상태를 선택할 수 있습니다.<br>
-또한, crystal report를 이용하여 영수증, 제품 리스트, 직원 리스트 등을 만들었으며,<br>
+관리자가 로그인하여 제품의 카테고리 부터 테이블까지 설정할 수 있으며 포스기 화면을 통해 다양한 형태의 주문을 잡을 수 있습니다.<br>
 모든 작업은 MSSQL을 바탕으로 제작되었습니다.<br>
 <br><br>
 Reason for making: studying c#, winform(Guna.UI2), crystal report, MSSQL <br>
-Development period: 7 days <br>
+Development period: 24.05.28~24.06.31<br>
 Busan Polytechnic High-Tech Course
 <br>
 <br>
