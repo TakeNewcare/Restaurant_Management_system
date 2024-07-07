@@ -29,7 +29,7 @@ namespace CM.Model
         private void LoadData()
         {
             string qry = @"select MainID, TableName, WaiterName, orderType, status, total from tblMain
-                            where status <> '결제완료' ";  // tblMain 테이블에서 status 열이 '결제완료'가 아닌 모든 레코드의 MainID, TableName, WaiterName, orderType, status, total 열을 선택하는 것
+                            where status <> '주문 완료' ";  // tblMain 테이블에서 status 열이 '결제완료'가 아닌 모든 레코드의 MainID, TableName, WaiterName, orderType, status, total 열을 선택하는 것
 
             ListBox lb = new ListBox();
             lb.Items.Add(dgvid);
@@ -63,7 +63,7 @@ namespace CM.Model
                 this.Close();
 
             }
-            if (guna2DataGridView1.CurrentCell.OwningColumn.Name == "dgvdel")
+            if (guna2DataGridView1.CurrentCell.OwningColumn.Name == "dgvPrint")
             {
                 MainID = Convert.ToInt32(guna2DataGridView1.CurrentRow.Cells["dgvid"].Value);
                 string qry = @"select * from tblMain m inner join
@@ -71,11 +71,22 @@ namespace CM.Model
                                 inner join products p on p.PID = d.ProID
                                 where m.MainID =" + MainID + " ";
                 SqlCommand cmd = new SqlCommand(qry, MainClass.con);
-                MainClass.con.Open();
+                if (MainClass.con.State == ConnectionState.Closed)
+                {
+                    MainClass.con.Open();
+                }
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 MainClass.con.Close();
+
+                if (dt.Rows[0]["received"].ToString() == "0")
+                {
+                    MessageBox.Show("결제된 주문이 아닙니다.");
+                    return;
+                }
+
+
                 fkmPrint frm = new fkmPrint();
                 rptBill cr = new rptBill();
 

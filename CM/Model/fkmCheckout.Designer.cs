@@ -260,7 +260,9 @@
             this.Controls.Add(this.txtBillAmount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.guna2Panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "fkmCheckout";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "fkmCheckout";
             this.Load += new System.EventHandler(this.fmCheckout_Load);
             this.guna2Panel1.ResumeLayout(false);
