@@ -22,92 +22,71 @@ namespace CM
             private set { user = value; }
         }
 
-        // sql 흐름
-        // SqlConnection 클래스로 한번 연결한 후,          (한번만 연결하면 된다. 연결상태 확인용도 있으면 좋음)
-        // SqlCommand, SqlDataAdapter, SqlDataReader 를 사용하여 읽고 조작한다.
-
-        // mssql 연결 객체 종류
-        // SqlConnection : 서버와 연결을 설정하는데 사용
-
-        // SqlCommand : 단순히 쿼리를 실행하고 그 결과를 받아오는데 사용
+        // mssql 흐름, 연결 객체 종류
+        // SqlConnection : 서버와 연결 설정(한번만 연결하면 된다. 연결상태 확인용도 있으면 좋음)
+        // SqlCommand : 실행할 쿼리문 정의
         // SqlDataAdapter : 데이터베이스에서 데이터를 읽고 쓰는데 사용된다!!(상호작용)(데이터베이스 삽입, 업데이트, 삭제하는데 사용)
         // SqlDataReader : 데이터베이스에서 데이터를 읽어오는데만 사용(데이터를 수정하거나 업데이트 하지 않는다.), 데이터를 순차적으로 읽어온다.
-
 
         // 데이터 베이스 connection 쿼리
         // Data Source = 데이터베이스 전체 이름(!!!);
         // Initial Catalog= 데이터베이스명;
         // Persist Security Info=True;   : 데이터베이스 연결 문자열에서 사용되는 옵션으로 true 이면 사용자가 연결 문자열에 포함된 비밀번호를 볼 수 있게 된다
+        // TrustServerCertificate=True; : 신뢰성 설정
         // User ID = mssql 아이디;
         // Password= mssql 비밀번호;
+
         public static readonly string con_string = "Data Source = DESKTOP-4B8919P; Initial Catalog=KM;  TrustServerCertificate=True; Persist Security Info=False; User ID=sa; Password=1234;";
-        public static SqlConnection con = new SqlConnection(con_string);  // 데이터 베이스와의 실제 연결을 담당한다.
+        public static SqlConnection con = new SqlConnection(con_string);  // 데이터 베이스 서버와 연결
 
-
-        // 로그인 하려는 사람의 아이디와 비밀번호를 받는다.
+        // 아이디와 비밀번호를 체크
         public static bool IsValidUser(string user, string pass)
         {
             bool isValid = false;
 
+            string qry = $"select * from users where username = '{user}' and userpass = '{pass}'";
 
-                string qry = $"select * from users where username = '{user}' and userpass = '{pass}'";
-                // @"Select * from users where username = '" + user + "' and userpass = '" + pass + "' ";
+            SqlCommand cmd = new SqlCommand(qry, con);  // con으로 연결할 데이터 베이스에 qry 쿼리문 정의
+            DataTable dt = new DataTable();   // 데이터를 저장하는데 사용되는 테이블 생성
+            SqlDataAdapter da = new SqlDataAdapter(cmd);  // 정의한 쿼리문을 통해 데이터를 추출하여 가져온다
+            da.Fill(dt);   // da가 가져온 데이터를 dt에 채운다.
 
-                // @ 리터럴 표기법 : 문자열 내에서 특수 기호를 문자 그대로 사용하기 위한 표기법
-
-                SqlCommand cmd = new SqlCommand(qry, con);  // con으로 연결된 데이터 베이스에 qry 쿼리문 정의
-                DataTable dt = new DataTable();   // 데이터를 저장하는 데 사용되는 테이블로 da.Fill(dt)에서 쿼리의 결과 데이터를 저장한다
-                SqlDataAdapter da = new SqlDataAdapter(cmd);  // 정의한 쿼리문을 가져가서 데이터를 추출하여 가져온다
-                da.Fill(dt);   // da가 가져온 데이터를 dt에 채운다.
-
-                if (dt.Rows.Count > 0)
-                {
-                    isValid = true;
-                    USER = dt.Rows[0]["uName"].ToString();
-
-                }
-
-                return isValid;
-
-
+            if (dt.Rows.Count > 0)   // dt에 데이터가 있으면
+            {
+                isValid = true;
+                USER = dt.Rows[0]["uName"].ToString();
+            }
+            return isValid;
         }
 
+        // @ 리터럴 표기법 : 문자열 내에서 특수 기호를 문자 그대로 사용하기 위한 표기법
 
         // 목록 관련 메서드
         // 쿼리문과 테이블을 받아서 실행하고 영향 받은 행의 수를 반환한다.
         public static int SQL(string qry, Hashtable ht)   // Hashtable : 데이터 구조 중 하나로 키와 값 쌍을 가진다.
         {
-
             int res = 0;
-
             try
             {
                 SqlCommand cmd = new SqlCommand(qry, con);
                 cmd.CommandType = CommandType.Text;  // 쿼리 타입이 텍스트형식으로 되었다는 것을 명시하지만 기본값이다.
-
                 foreach (DictionaryEntry item in ht)  // DictionaryEntry : 구조체로 Hashtable의 키-값 쌍을 나타낸다.
                 {
                     // sqlcommand 객체의 parameters 속성을 이용해 sql 쿼리에 매개변수를 추가한다. => SQL 쿼리 문자열에서 '@매개변수이름' 형식으로 매개변수를 사용
                     cmd.Parameters.AddWithValue(item.Key.ToString(), item.Value);
                 }
 
-
                 if (con.State == ConnectionState.Closed)
                 {
                     con.Open();
                 }
-
                 res = cmd.ExecuteNonQuery();  // cms 객체에서 영향받은 행의 수를 반환한다.
-
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.ToString());
                 con.Close();
-
             }
-
             return res;
         }
 
