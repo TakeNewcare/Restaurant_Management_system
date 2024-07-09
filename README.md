@@ -188,66 +188,7 @@ public override void btnSave_Click(object sender, EventArgs e)
         txtName1.Focus();
     }
 }
-
-
 ```
-```
-// 패널에 제품 넣기(데이터베이스에 바이트 형식으로 저장된 이미지를 불러오기)
-private void LoadProducts()
-{
-    // products의 catID와 category의 CategoryID 를 연결 시켜 출력한다
-    string qry = "Select * from products inner join category on catID = CategoryID";
-    SqlCommand cmd = new SqlCommand(qry, MainClass.con);
-    SqlDataAdapter da = new SqlDataAdapter(cmd);
-    DataTable dt = new DataTable();
-    da.Fill(dt);
-
-    foreach (DataRow item in dt.Rows)  // 조회된 결과값 만큼 반복하여 AddItems 함수(ProductPanel에 항목 추가 작업) 실행
-    {
-        Byte[] imagearray = (byte[])item["pImage"];  // 데이터베이스의 pImage 열의 값을 바이트 배열 형태로 현변환
-        byte[] immagebytearray = imagearray;
-
-        // 번호, 아이디, 프로덕트 이름, 카테고리 이름, 가격, 이미지
-        AddItems("0", item["pID"].ToString(), item["pName"].ToString(), item["catName"].ToString(),
-        item["pPrice"].ToString(), Image.FromStream(new MemoryStream(immagebytearray)));
-
-        // Image.FromStream(new MemoryStream(immagebytearray))
-        // new MemoryStream(immagebytearray) : 바이트 배열을 이용하여 MemoryStream 객체를 생성(데이터가 메모리 상에만 존재 파일에 저장x)
-        // Image.FromStream() : 스트림에서 이미지를 읽어와 이미지객체로 변환한다.
-    }
-}
-```
-        // 쿼리문과 테이블을 받아서 실행하고 영향 받은 행의 수를 반환한다.
-        public static int SQL(string qry, Hashtable ht)  
-        {
-            int res = 0;
-
-            try
-            {
-                SqlCommand cmd = new SqlCommand(qry, con);
-                cmd.CommandType = CommandType.Text;  // 쿼리 타입이 텍스트형식으로 되었다는 것을 명시하지만 기본값이다.
-
-                foreach (DictionaryEntry item in ht)  // DictionaryEntry : 구조체로 Hashtable의 키-값 쌍을 나타낸다.
-                {
-                    // sqlcommand 객체의 parameters 속성을 이용해 sql 쿼리에 매개변수를 추가한다. => SQL 쿼리 문자열에서 '@매개변수이름' 형식으로 매개변수를 사용
-                    cmd.Parameters.AddWithValue(item.Key.ToString(), item.Value);
-                }
-
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-
-                res = cmd.ExecuteNonQuery();  // cms 객체에서 영향받은 행의 수를 반환한다.
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                con.Close();
-            }
-            return res;
-        }
-
 
 
 ## <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=googledocs&logoColor=black"/> 새로 알게된 점과 느낀점
