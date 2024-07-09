@@ -46,7 +46,7 @@ Busan Polytechnic High-Tech Course
 <img src="https://img.shields.io/badge/visualstudio-5C2D91?style=flat-square&logo=visualstudio&logoColor=white"/> <img src="https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white"/>
 
 ### Development
-<img src="https://img.shields.io/badge/.NET-512BD4?style=flat-square&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> <img src="https://img.shields.io/badge/csharp-512BD4?style=flat-square&logo=csharp&logoColor=white"/> 
+<img src="https://img.shields.io/badge/-C%23-512BD4?logo=Csharp&style=flat&logo=.NET&logoColor=white"/> <img src="https://img.shields.io/badge/-Winform-000000?logo=Csharp&style=flat&logoColor=white"/> <img src="https://img.shields.io/badge/-MSSQL-4479A1?logo=Csharp&style=flat&logoColor=white"/> 
 <img src ="../main/image/crystal%20report.jfif"  width="100" height="50">
 
 ### <img src="https://img.shields.io/badge/-FFFFFF?style=flat-square&logo=airplayvideo&logoColor=black"/>Screen configuration and Description
