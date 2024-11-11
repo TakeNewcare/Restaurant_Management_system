@@ -16,12 +16,10 @@ namespace CM
         {
             InitializeComponent();
         }
-
         public virtual void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         public virtual void btnSave_Click(object sender, EventArgs e)
         {
 
