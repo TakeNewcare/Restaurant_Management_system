@@ -123,7 +123,7 @@
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(180, 45);
             this.btnReports.TabIndex = 2;
-            this.btnReports.Text = "결 산";
+            this.btnReports.Text = "메뉴판";
             this.btnReports.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.btnReports.TextOffset = new System.Drawing.Point(20, 0);
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
@@ -355,7 +355,6 @@
             this.guna2PictureBox1.TabIndex = 0;
             this.guna2PictureBox1.TabStop = false;
             this.guna2PictureBox1.UseTransparentBackground = true;
-            this.guna2PictureBox1.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
             // guna2Panel2
             // 

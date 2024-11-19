@@ -20,6 +20,7 @@ namespace CM.Model
         }
 
         public int MainID = 0;
+        public bool payment = true;
 
         private void fmBillList_Load(object sender, EventArgs e)
         {
@@ -29,7 +30,7 @@ namespace CM.Model
         private void LoadData()
         {
             string qry = @"select MainID, TableName, WaiterName, orderType, status, total from tblMain
-                            where status <> '주문 완료' ";  // tblMain 테이블에서 status 열이 '결제완료'가 아닌 모든 레코드의 MainID, TableName, WaiterName, orderType, status, total 열을 선택하는 것
+                            where status <> '결제 완료' ";  // tblMain 테이블에서 status 열이 '결제완료'가 아닌 모든 레코드의 MainID, TableName, WaiterName, orderType, status, total 열을 선택하는 것
 
             ListBox lb = new ListBox();
             lb.Items.Add(dgvid);
@@ -60,10 +61,19 @@ namespace CM.Model
             if (guna2DataGridView1.CurrentCell.OwningColumn.Name == "dgvedit")  // 편집 name 클릭
             {
                 MainID = Convert.ToInt32(guna2DataGridView1.CurrentRow.Cells["dgvid"].Value);
+
+                if (guna2DataGridView1.CurrentCell.OwningRow.Cells[7].Value.ToString() == "대기")
+                {
+                    payment = false;
+                }
+                else
+                {
+                    payment = true;
+                }
                 this.Close();
 
             }
-            if (guna2DataGridView1.CurrentCell.OwningColumn.Name == "dgvPrint")
+            if (guna2DataGridView1.CurrentCell.OwningColumn.Name == "dgvdel")
             {
                 MainID = Convert.ToInt32(guna2DataGridView1.CurrentRow.Cells["dgvid"].Value);
                 string qry = @"select * from tblMain m inner join
@@ -71,22 +81,11 @@ namespace CM.Model
                                 inner join products p on p.PID = d.ProID
                                 where m.MainID =" + MainID + " ";
                 SqlCommand cmd = new SqlCommand(qry, MainClass.con);
-                if (MainClass.con.State == ConnectionState.Closed)
-                {
-                    MainClass.con.Open();
-                }
+                MainClass.con.Open();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 MainClass.con.Close();
-
-                if (dt.Rows[0]["received"].ToString() == "0")
-                {
-                    MessageBox.Show("결제된 주문이 아닙니다.");
-                    return;
-                }
-
-
                 fkmPrint frm = new fkmPrint();
                 rptBill cr = new rptBill();
 

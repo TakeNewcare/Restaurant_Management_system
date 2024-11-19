@@ -60,10 +60,5 @@ namespace CM.View
         }
 
 
-        private void btnSaleCat_Click(object sender, EventArgs e)
-        {
-            fkmSaleByCategory frm = new fkmSaleByCategory();
-            frm.ShowDialog();
-        }
     }
 }

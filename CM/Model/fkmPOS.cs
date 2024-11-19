@@ -15,7 +15,6 @@ namespace CM.Model
 {
     public partial class fkmPOS : Form
     {
-
         public fkmPOS()
         {
             InitializeComponent();
@@ -151,7 +150,7 @@ namespace CM.Model
                         item.Cells["dgvQty"].Value = int.Parse(item.Cells["dgvQty"].Value.ToString()) + 1;          // 개수 늘기기
                         item.Cells["dgvAmount"].Value = int.Parse(item.Cells["dgvQty"].Value.ToString()) *
                                                         double.Parse(item.Cells["dgvPrice"].Value.ToString());      // 총액 변동
-                        GetTotal();
+
                         return;
                     }
 
@@ -187,7 +186,7 @@ namespace CM.Model
                 tot += double.Parse(item.Cells["dgvPrice"].Value.ToString()) * double.Parse(item.Cells["dgvQty"].Value.ToString());
             }
 
-            lblTotal.Text = tot.ToString("N2");
+            lblTotal.Text = tot.ToString("");
         }
 
 
@@ -198,14 +197,10 @@ namespace CM.Model
             lblTable.Text = "";
             lblWaiter.Text = "";
             lblTable.Visible = false;
-            lblDriverName.Text = "";
             lblWaiter.Visible = false;
-            btnDin.Checked = false;
-            btnTake.Checked = false;
-            btnDelivery.Checked = false;
             guna2DataGridView1.Rows.Clear();
             MainID = 0;
-            lblTotal.Text = "00";
+            lblTotal.Text = "0";
         }
 
         // 오더타입 설정
@@ -231,17 +226,13 @@ namespace CM.Model
             frm.orderType = OrderType;
             MainClass.BlurBackground(frm);
 
-            if (frm.txtName1.Text != "" && frm.txtPhone.Text != "") // as take away did not have driver infro
+            if (frm.txtName1.Text != "") // as take away did not have driver infro
             {
                 driverID = frm.driverID;
                 lblDriverName.Text = "고객명: " + frm.txtName1.Text + " 고객 번호: " + frm.txtPhone.Text + " 배달기사: " + frm.cbDriver.Text;
                 lblDriverName.Visible = true;
                 customerName = frm.txtName1.Text;
                 customerPhone = frm.txtPhone.Text;
-            }
-            else
-            {
-                btnDelivery.Checked = false;
             }
         }
 
@@ -263,17 +254,13 @@ namespace CM.Model
             frm.orderType = OrderType;
             MainClass.BlurBackground(frm);
 
-            if (frm.txtName1.Text != "" && frm.txtPhone.Text != "") // as take away did not have driver infro
+            if (frm.txtName1.Text != "") // as take away did not have driver infro
             {
                 driverID = frm.driverID;
                 lblDriverName.Text = "고객명: " + frm.txtName1.Text + " 고객번호: " + frm.txtPhone.Text;
                 lblDriverName.Visible = true;
                 customerName = frm.txtName1.Text;
                 customerPhone = frm.txtPhone.Text;
-            }
-            else
-            {
-                btnTake.Checked = false;
             }
 
         }
@@ -287,7 +274,7 @@ namespace CM.Model
 
             fkmTableSelect frm = new fkmTableSelect();
             MainClass.BlurBackground(frm);
-            if (frm.TableName != null)
+            if (frm.TableName != "")
             {
                 lblTable.Text = frm.TableName;              // 선택한 테이블과 직원을 pos 화면에 보여주기
                 lblTable.Visible = true;
@@ -296,13 +283,11 @@ namespace CM.Model
             {
                 lblTable.Text = "";
                 lblTable.Visible = false;
-                btnDin.Checked = false;
-                return;
             }
 
             fkmWaiterSelect frm2 = new fkmWaiterSelect();
             MainClass.BlurBackground(frm2);
-            if (frm2.waiterName != null)
+            if (frm2.waiterName != "")
             {
                 lblWaiter.Text = frm2.waiterName;
                 lblWaiter.Visible = true;
@@ -312,22 +297,12 @@ namespace CM.Model
             {
                 lblWaiter.Text = "";
                 lblWaiter.Visible = false;
-                lblTable.Text = "";
-                lblTable.Visible = false;
-                btnDin.Checked = false;
-                return;
             }
         }
 
         // 테이블, 직원, 오더 타입 등 선택 후 클릭하면 예약 상태로 잡히는 버튼
         private void btnKot_Click(object sender, EventArgs e)
         {
-
-            if (guna2DataGridView1.Rows.Count == 0)
-            {
-                guna2MessageDialog1.Show("메뉴를 추가해 주세요");
-                return;
-            }
 
             string qry1 = ""; //Main table
             string qry2 = ""; // Detail table
@@ -421,13 +396,24 @@ namespace CM.Model
         private void btnBill_Click(object sender, EventArgs e)
         {
             fkmBillList frm = new fkmBillList();
-            MainClass.BlurBackground(frm);  // => frm에서 수정 작업을 하면 MainID값이 바뀌면서
+            MainClass.BlurBackground(frm);
+            if (frm.payment)
+            {
+                btnCheckout.Enabled = true;
+            }
+            else
+            {
+                btnCheckout.Enabled = false;
+                guna2MessageDialog1.Show("주문을 먼저 해주세요!");
+            }
             if (frm.MainID > 0)
             {
                 id = frm.MainID;
                 MainID = frm.MainID;
+                
                 LoadEntries();
             }
+
 
         }
 
@@ -488,11 +474,6 @@ namespace CM.Model
 
         private void btnCheckout_Click(object sender, EventArgs e)
         {
-            if(guna2DataGridView1.Rows.Count == 0){
-                guna2MessageDialog1.Show("주문을 추가 선택해 주세요");
-                return;
-            }
-
 
             fkmCheckout frm = new fkmCheckout();
             frm.MainID = id;
@@ -511,97 +492,99 @@ namespace CM.Model
 
         private void btnHold_Click(object sender, EventArgs e)
         {
-            if (guna2DataGridView1.Rows.Count == 0)
+
+            try
             {
-                guna2MessageDialog1.Show("메뉴를 선택해 주세요");
-                return;
-            }
 
+                string qry1 = "";
+                string qry2 = "";
+                int detailID = 0;
 
-            string qry1 = "";
-            string qry2 = "";
-            int detailID = 0;
+                if (OrderType == "")
+                {
+                    guna2MessageDialog1.Show("배달 방식을 선택해 주세요");
+                    return;
+                }
 
-            if (OrderType == "")
-            {
-                guna2MessageDialog1.Show("배달 방식을 선택해 주세요");
-                return;
-            }
-
-            if (MainID == 0)
-            {
-                qry1 = @"insert into tblMain Values(@aDate, @aTime, @TableName, @waiterName, 
+                if (MainID == 0)
+                {
+                    qry1 = @"insert into tblMain Values(@aDate, @aTime, @TableName, @waiterName, 
                             @status, @orderType, @total, @received, @change, @driverID, @CustName, @CustPhone);
                             select scope_identity()";
-            }
-            else
-            {
-                qry1 = @"update tblMain set status =  @status, total = @total, 
-                        received = @received, change = @change where MainID = @ID";
-            }
-
-            SqlCommand cmd = new SqlCommand(qry1, MainClass.con);
-            cmd.Parameters.AddWithValue("@ID", MainID);
-            cmd.Parameters.AddWithValue("@aDate", Convert.ToDateTime(DateTime.Now.Date));
-            cmd.Parameters.AddWithValue("@aTime", DateTime.Now.ToShortTimeString());
-            cmd.Parameters.AddWithValue("@TableName", lblTable.Text);
-            cmd.Parameters.AddWithValue("@waiterName", lblWaiter.Text);
-            cmd.Parameters.AddWithValue("@status", "대기");
-            cmd.Parameters.AddWithValue("@orderType", OrderType);
-            cmd.Parameters.AddWithValue("@total", Convert.ToDouble(lblTotal.Text));  // as we only saving data for kitchen value will update when payment received
-            cmd.Parameters.AddWithValue("@received", Convert.ToDouble(0));
-            cmd.Parameters.AddWithValue("@change", Convert.ToDouble(0));
-            cmd.Parameters.AddWithValue("@driverID", driverID);
-            cmd.Parameters.AddWithValue("@CustName", customerName);
-            cmd.Parameters.AddWithValue("@CustPhone", customerPhone);
-
-            if (MainClass.con.State == ConnectionState.Closed) { MainClass.con.Open(); }
-            if (MainID == 0)
-            {
-                MainID = Convert.ToInt32(cmd.ExecuteScalar());
-
-            }
-            else { cmd.ExecuteNonQuery(); }
-            if (MainClass.con.State == ConnectionState.Open) { MainClass.con.Close(); }
-
-
-            foreach (DataGridViewRow row in guna2DataGridView1.Rows)
-            {
-                detailID = Convert.ToInt32(row.Cells["dgvid"].Value);
-
-                if (detailID == 0)
-                {
-                    qry2 = @" insert into tblDetails Values(@MainID, @proID, @qty, @price, @amount)";
                 }
                 else
                 {
-                    qry2 = @" UPdate tblDetails Set proID = @proID, qty = @qty, price = @price, amount = @amount
-                                where DetailID = @ID";
+                    qry1 = @"update tblMain set status =  @status, total = @total, 
+                        received = @received, change = @change where MainID = @ID";
                 }
 
-                SqlCommand cmd2 = new SqlCommand(qry2, MainClass.con);
-                cmd2.Parameters.AddWithValue("@ID", detailID);
-                cmd2.Parameters.AddWithValue("@MainID", MainID);
-                cmd2.Parameters.AddWithValue("@proID", Convert.ToInt32(row.Cells["dgvproID"].Value));
-                cmd2.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells["dgvQty"].Value));
-                cmd2.Parameters.AddWithValue("@price", Convert.ToDouble(row.Cells["dgvPrice"].Value));
-                cmd2.Parameters.AddWithValue("@amount", Convert.ToDouble(row.Cells["dgvAmount"].Value));
+                SqlCommand cmd = new SqlCommand(qry1, MainClass.con);
+                cmd.Parameters.AddWithValue("@ID", MainID);
+                cmd.Parameters.AddWithValue("@aDate", Convert.ToDateTime(DateTime.Now.Date));
+                cmd.Parameters.AddWithValue("@aTime", DateTime.Now.ToShortTimeString());
+                cmd.Parameters.AddWithValue("@TableName", lblTable.Text);
+                cmd.Parameters.AddWithValue("@waiterName", lblWaiter.Text);
+                cmd.Parameters.AddWithValue("@status", "대기");
+                cmd.Parameters.AddWithValue("@orderType", OrderType);
+                cmd.Parameters.AddWithValue("@total", Convert.ToDouble(lblTotal.Text));  // as we only saving data for kitchen value will update when payment received
+                cmd.Parameters.AddWithValue("@received", Convert.ToDouble(0));
+                cmd.Parameters.AddWithValue("@change", Convert.ToDouble(0));
+                cmd.Parameters.AddWithValue("@driverID", driverID);
+                cmd.Parameters.AddWithValue("@CustName", customerName);
+                cmd.Parameters.AddWithValue("@CustPhone", customerPhone);
 
                 if (MainClass.con.State == ConnectionState.Closed) { MainClass.con.Open(); }
-                cmd2.ExecuteNonQuery();
-                if (MainClass.con.State == ConnectionState.Open) { MainClass.con.Close(); }
-            }
+                if (MainID == 0)
+                {
+                    MainID = Convert.ToInt32(cmd.ExecuteScalar());
 
-            guna2MessageDialog1.Show("대기 성공!");
-            guna2DataGridView1.Rows.Clear();
-            MainID = 0;
-            detailID = 0;
-            lblTable.Text = "";
-            lblWaiter.Text = "";
-            lblTable.Visible = false;
-            lblWaiter.Visible = false;
-            lblTotal.Text = "00";
-            lblDriverName.Text = "";
+                }
+                else { cmd.ExecuteNonQuery(); }
+                if (MainClass.con.State == ConnectionState.Open) { MainClass.con.Close(); }
+
+
+                foreach (DataGridViewRow row in guna2DataGridView1.Rows)
+                {
+                    detailID = Convert.ToInt32(row.Cells["dgvid"].Value);
+
+                    if (detailID == 0)
+                    {
+                        qry2 = @" insert into tblDetails Values(@MainID, @proID, @qty, @price, @amount)";
+                    }
+                    else
+                    {
+                        qry2 = @" UPdate tblDetails Set proID = @proID, qty = @qty, price = @price, amount = @amount
+                                where DetailID = @ID";
+                    }
+
+                    SqlCommand cmd2 = new SqlCommand(qry2, MainClass.con);
+                    cmd2.Parameters.AddWithValue("@ID", detailID);
+                    cmd2.Parameters.AddWithValue("@MainID", MainID);
+                    cmd2.Parameters.AddWithValue("@proID", Convert.ToInt32(row.Cells["dgvproID"].Value));
+                    cmd2.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells["dgvQty"].Value));
+                    cmd2.Parameters.AddWithValue("@price", Convert.ToDouble(row.Cells["dgvPrice"].Value));
+                    cmd2.Parameters.AddWithValue("@amount", Convert.ToDouble(row.Cells["dgvAmount"].Value));
+
+                    if (MainClass.con.State == ConnectionState.Closed) { MainClass.con.Open(); }
+                    cmd2.ExecuteNonQuery();
+                    if (MainClass.con.State == ConnectionState.Open) { MainClass.con.Close(); }
+                }
+
+                guna2MessageDialog1.Show("대기 성공!");
+                guna2DataGridView1.Rows.Clear();
+                MainID = 0;
+                detailID = 0;
+                lblTable.Text = "";
+                lblWaiter.Text = "";
+                lblTable.Visible = false;
+                lblWaiter.Visible = false;
+                lblTotal.Text = "00";
+                lblDriverName.Text = "";
+            }
+            catch (Exception ex)
+            {
+                guna2MessageDialog1.Show("메뉴를 선택해 주세요");
+            }
         }
     }
 }

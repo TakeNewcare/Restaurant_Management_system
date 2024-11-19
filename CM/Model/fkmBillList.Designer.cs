@@ -44,7 +44,7 @@
             this.dgvStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvedit = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgvPrint = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgvdel = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.guna2Panel1.SuspendLayout();
@@ -82,9 +82,9 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(140, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 25);
+            this.label1.Size = new System.Drawing.Size(69, 25);
             this.label1.TabIndex = 2;
-            this.label1.Text = "영수증 관리";
+            this.label1.Text = "영수증";
             // 
             // guna2PictureBox1
             // 
@@ -124,7 +124,7 @@
             this.dgvStatus,
             this.dgvTotal,
             this.dgvedit,
-            this.dgvPrint});
+            this.dgvdel});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -224,17 +224,17 @@
             this.dgvedit.ReadOnly = true;
             this.dgvedit.Width = 50;
             // 
-            // dgvPrint
+            // dgvdel
             // 
-            this.dgvPrint.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgvPrint.FillWeight = 50F;
-            this.dgvPrint.HeaderText = "";
-            this.dgvPrint.Image = global::CM.Properties.Resources.free_icon_laser_2248661;
-            this.dgvPrint.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.dgvPrint.MinimumWidth = 50;
-            this.dgvPrint.Name = "dgvPrint";
-            this.dgvPrint.ReadOnly = true;
-            this.dgvPrint.Width = 50;
+            this.dgvdel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgvdel.FillWeight = 50F;
+            this.dgvdel.HeaderText = "";
+            this.dgvdel.Image = global::CM.Properties.Resources.free_icon_laser_2248661;
+            this.dgvdel.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.dgvdel.MinimumWidth = 50;
+            this.dgvdel.Name = "dgvdel";
+            this.dgvdel.ReadOnly = true;
+            this.dgvdel.Width = 50;
             // 
             // dataGridViewImageColumn1
             // 
@@ -268,7 +268,6 @@
             this.Controls.Add(this.guna2Panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "fkmBillList";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "fkmBillList";
             this.Load += new System.EventHandler(this.fmBillList_Load);
             this.guna2Panel1.ResumeLayout(false);
@@ -296,6 +295,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvTotal;
         private System.Windows.Forms.DataGridViewImageColumn dgvedit;
-        private System.Windows.Forms.DataGridViewImageColumn dgvPrint;
+        private System.Windows.Forms.DataGridViewImageColumn dgvdel;
     }
 }

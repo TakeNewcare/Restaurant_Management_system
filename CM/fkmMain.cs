@@ -53,8 +53,8 @@ namespace CM
         public void AddControls(Form form)
         {
             CenterPanel.Controls.Clear();  // 일단, 비우기
-            form.Dock = DockStyle.Fill;  // 패널 전체를 채우는 형식으로 설정
-            form.TopLevel = false;  // 부모인 mainform에 속하게 만들기 위해
+            form.Dock = DockStyle.Fill;  // 패널 전체를 채우기
+            form.TopLevel = false;  // 다른 창들과 독립적으로 존재로 만들기
             CenterPanel.Controls.Add(form);
             form.Show();
         }
@@ -108,11 +108,6 @@ namespace CM
         {
             AddControls(new fkmReports());
 
-        }
-
-        private void guna2PictureBox1_Click(object sender, EventArgs e)
-        {
-            AddControls(new fkmHome());
         }
     }
 }
