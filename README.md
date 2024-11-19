@@ -64,9 +64,9 @@ Busan Polytechnic High-Tech Course
 |<img src ="../main/image/POS.png"  width="300" height="200">|<img src ="../main/image/bill.png"  width="300" height="200">|<img src ="../main/image/KI.png"  width="300" height="200">|<img src ="../main/image/staff.png"  width="300" height="200">|
 <br>
 
-|결산|메뉴판|주방 화면|주방 화면|
-|:---:|:---:|:---:|:---:|
-|<img src ="../main/image/result.png"  width="300" height="200">|<img src ="../main/image/result_menu.png"  width="150" height="300">|<img src ="../main/image/result_staff.png"   width="150" height="300">|<img src ="../main/image/result_sale.png"   width="150" height="300">|
+|메뉴판|직원|
+|:---:|:---:|
+|<img src ="../main/image/result_menu.png"  width="150" height="300">|<img src ="../main/image/result_staff.png"   width="150" height="300">|
 
 
 ## 
